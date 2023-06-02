@@ -1,6 +1,6 @@
-import { useState } from "react"
-
-const Formulario = () => {
+import { useState,useEffect } from "react"
+import Error from './Error'
+const Formulario = ({pacientes,setPacientes}) => {
 
   const [nombre,setNombre] = useState('');
   const [propietario,setPropietario] = useState('');
@@ -8,6 +8,13 @@ const Formulario = () => {
   const [alta,setAlta] = useState('');
   const [sintomas,setSintomas] = useState('');
   const [error,setError] = useState(false);
+
+  const generarId = () =>{
+    const fecha = Date.now().toString()
+    const random = Math.random().toString().substring(2);
+    return fecha + random;
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -17,7 +24,23 @@ const Formulario = () => {
     }else{
       console.log("Enviando Formulario");
       setError(false);
-    }
+
+      const objPacientes = {
+        nombre,
+        propietario,
+        email,
+        alta,
+        sintomas,
+        id:generarId()
+      }
+      setPacientes([...pacientes,objPacientes]);
+      setNombre('');
+      setPropietario('');
+      setEmail('');
+      setAlta('');
+      setSintomas('');
+      //console.log(setPacientes([...pacientes,objPacientes]))
+    } 
     
   }
   return (
@@ -33,9 +56,8 @@ const Formulario = () => {
       <form className="bg-white py-10 px-10 rounded-lg shadow-md"
       onSubmit={handleSubmit}
       >
-        <div className={`bg-red-800 text-white p-3 text-center mb-2 ${error ? 'block' : 'hidden'}`}>
-          {error && 'Todos los campos son obligatorios'}
-        </div>
+        {error &&  <Error><p>Todos los campos son obligatorios cojollo</p></Error>}
+             
         <div className="mb-5">
         <label htmlFor="mascota"
           className="block text-gray-600 font-bold uppercase ">NOMBRE MASCOTA
