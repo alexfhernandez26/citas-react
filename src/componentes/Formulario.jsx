@@ -1,7 +1,9 @@
 import { useState,useEffect } from "react"
 import Error from './Error'
-const Formulario = ({pacientes,setPacientes}) => {
+import PropTypes from 'prop-types'
+const Formulario = ({pacientes,setPacientes,paciente,setPaciente}) => {
 
+  
   const [nombre,setNombre] = useState('');
   const [propietario,setPropietario] = useState('');
   const [email,setEmail] = useState('');
@@ -9,6 +11,15 @@ const Formulario = ({pacientes,setPacientes}) => {
   const [sintomas,setSintomas] = useState('');
   const [error,setError] = useState(false);
 
+  useEffect(()=>{
+    if (Object.keys(paciente).length > 0){
+      setNombre(paciente.nombre)
+      setPropietario(paciente.propietario)
+      setEmail(paciente.email)
+      setAlta(paciente.alta)
+      setSintomas(paciente.sintomas)
+    }
+  },[paciente])
   const generarId = () =>{
     const fecha = Date.now().toString()
     const random = Math.random().toString().substring(2);
@@ -16,8 +27,8 @@ const Formulario = ({pacientes,setPacientes}) => {
   }
 
   const handleSubmit = (e) => {
+   
     e.preventDefault();
-
     if([nombre,propietario,email,alta,sintomas].includes('')){
        console.log("Debe llenar todos los campos  ");
        setError(true);
@@ -31,9 +42,22 @@ const Formulario = ({pacientes,setPacientes}) => {
         email,
         alta,
         sintomas,
-        id:generarId()
+       
       }
-      setPacientes([...pacientes,objPacientes]);
+
+      if(paciente.id){
+        objPacientes.id = paciente.id;
+        const pacientesActualizados = pacientes.map(pacientesActualizadosMap=>
+          pacientesActualizadosMap.id === paciente.id ? objPacientes : pacientesActualizadosMap
+        )
+        
+        setPacientes(pacientesActualizados);
+        setPaciente({})
+      }else{
+        objPacientes.id = generarId();
+        setPacientes([...pacientes,objPacientes]);
+      }
+      
       setNombre('');
       setPropietario('');
       setEmail('');
@@ -126,7 +150,7 @@ const Formulario = ({pacientes,setPacientes}) => {
         <input 
         type="submit"
         className="bg-indigo-600 w-full text-white font-bold p-3 uppercase hover:bg-indigo-700 cursor-pointer rounded-md" 
-        value="Agregar Paciente"
+        value={paciente.id ? 'Editar paciente' : 'Agregar paciente'}
         />
       </form>
     </div>
@@ -134,4 +158,11 @@ const Formulario = ({pacientes,setPacientes}) => {
   )
 }
 
+Formulario.propTypes = {
+  // Define prop types here
+  pacientes: PropTypes.object.isRequired,
+  setPacientes:PropTypes.object.isRequired,
+  paciente: PropTypes.object.isRequired,
+  setPaciente:PropTypes.object.isRequired,
+};
 export default Formulario

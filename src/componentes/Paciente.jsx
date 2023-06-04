@@ -1,9 +1,13 @@
 import PropTypes from 'prop-types'
-const Paciente = ({paciente}) => {
+const Paciente = ({paciente,setPaciente,EliminarPaciente}) => {
   
+  const handleEliminar = () => {
+      var confirnmar = confirm('desea Eliminar el paciente?')
+      if(confirnmar) EliminarPaciente(id)
+  }
   const {id,nombre,propietario,email,alta,sintomas} =paciente;
   return (
-    <div className="m-3 bg-white px-10 py-10 shadow-md rounded-md">
+    <div className="md:m-3 bg-white px-10 py-10 shadow-md rounded-md">
        <p className="mb-5 text-gray-700 font-bold uppercase">
         ID: {""} <span className="font-normal normal-case">{id}</span>
       </p>
@@ -26,13 +30,16 @@ const Paciente = ({paciente}) => {
     <div className='flex justify-between mt-10'>
       <button
       type='button'
-      className='py-2 px-10 mr-3 bg-indigo-600 hover:bg-indigo-800 rounded-md text-white'
+      className='py-2 px-10  mr-3 bg-indigo-600 hover:bg-indigo-800 rounded-md text-white md:w-auto lg:w-auto'
+      onClick={() => setPaciente(paciente)}
       >
         Editar
+        
       </button>
       <button
       type='button'
-      className='py-2 px-10 bg-indigo-600  hover:bg-red-700 rounded-md text-white'
+      className='py-2 px-10 bg-red-600  hover:bg-red-700 rounded-md text-white'
+      onClick={handleEliminar}
       >
         Eliminar
       </button>
@@ -44,5 +51,7 @@ const Paciente = ({paciente}) => {
 Paciente.propTypes = {
   // Define prop types here
   paciente: PropTypes.object.isRequired,
+  setPaciente:PropTypes.object.isRequired,
+  EliminarPaciente: PropTypes.number.isRequired
 };
 export default Paciente
