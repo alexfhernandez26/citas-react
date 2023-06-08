@@ -1,6 +1,7 @@
 import { useState,useEffect } from "react"
 import Error from './Error'
 import PropTypes from 'prop-types'
+import { ToastContainer, toast } from "react-toastify";
 const Formulario = ({pacientes,setPacientes,paciente,setPaciente}) => {
 
   
@@ -53,9 +54,11 @@ const Formulario = ({pacientes,setPacientes,paciente,setPaciente}) => {
         
         setPacientes(pacientesActualizados);
         setPaciente({})
+        toast("Datos guardados exitosamente");
       }else{
         objPacientes.id = generarId();
         setPacientes([...pacientes,objPacientes]);
+        toast("Datos guardados exitosamente");
       }
       
       setNombre('');
@@ -152,6 +155,8 @@ const Formulario = ({pacientes,setPacientes,paciente,setPaciente}) => {
         className="bg-indigo-600 w-full text-white font-bold p-3 uppercase hover:bg-indigo-700 cursor-pointer rounded-md" 
         value={paciente.id ? 'Editar paciente' : 'Agregar paciente'}
         />
+
+        <ToastContainer />
       </form>
     </div>
     

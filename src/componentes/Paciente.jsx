@@ -7,10 +7,8 @@ const Paciente = ({paciente,setPaciente,EliminarPaciente}) => {
   }
   const {id,nombre,propietario,email,alta,sintomas} =paciente;
   return (
-    <div className="md:m-3 bg-white px-10 py-10 shadow-md rounded-md">
-       <p className="mb-5 text-gray-700 font-bold uppercase">
-        ID: {""} <span className="font-normal normal-case">{id}</span>
-      </p>
+    <div className="mb-5 sm:m-3 md:m-3 bg-white px-10 py-10 shadow-md rounded-md ">
+       
     <p className="mb-5 text-gray-700 font-bold uppercase">
       Nombre: {""} <span className="font-normal normal-case">{nombre}</span>
     </p>
